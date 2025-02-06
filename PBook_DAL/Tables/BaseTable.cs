@@ -11,6 +11,7 @@ namespace PBook_DAL.Tables
         protected readonly Npgsql.NpgsqlConnection Connection;
         string configPath = "dbconfig.json";
         public DBConfig dbConfig { get; set; }
+        //комментарий
         
         protected BaseTable()
         {
