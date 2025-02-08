@@ -12,4 +12,8 @@
     <ProjectReference Include="..\PBook_BL\PBook_BL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="ReactiveUI" Version="20.1.63" />
+  </ItemGroup>
+
 </Project>
