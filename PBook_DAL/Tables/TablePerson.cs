@@ -83,6 +83,24 @@ namespace PBook_DAL.Tables
             Connection.Close();
         }
 
+        public async Task<int> GetIdByFullName(string first_name, string last_name, string patronymic)
+        {
+            await Connection.OpenAsync();
+
+            const string sql = """
+                               SELECT id
+                               FROM phonebook.table_persons
+                               WHERE first_name = @first_name  AND last_name = @last_name AND patronymic = @patronymic;
+                               """;
+            var person_id = await Connection.QuerySingleOrDefaultAsync<int>(sql, new { first_name, last_name, patronymic });
+
+            Connection.Close();
+            return person_id;
+        }
+
+
+
+
 
     }
 }
