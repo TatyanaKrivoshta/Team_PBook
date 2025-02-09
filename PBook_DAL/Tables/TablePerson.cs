@@ -48,5 +48,41 @@ namespace PBook_DAL.Tables
             Connection.Close();
             return person;
         }
+        public async Task Add_Person(string first_name, string last_name, string patronymic)
+        {
+            await Connection.OpenAsync();
+            const string sql = """
+                                INSERT INTO phonebook.table_persons(first_name, last_name, patronymic)
+                                VALUES (@first_name, @last_name, @patronymic)
+                                """;
+            await Connection.QuerySingleOrDefaultAsync<Person>(sql, new { first_name, last_name, patronymic });
+            Connection.Close();
+        }
+       
+
+        public async Task Update_Person(int id, string first_name, string last_name, string patronymic)
+        {
+            await Connection.OpenAsync();
+            const string sql = """
+                                UPDATE phonebook.table_persons
+                                SET first_name = @first_name, last_name= @last_name, patronymic= @patronymic
+                                WHERE id = @id;
+                                """;
+            await Connection.QuerySingleOrDefaultAsync<Person>(sql, new {id, first_name, last_name, patronymic });
+            Connection.Close();
+        }
+
+        public async Task Delete_Person(int id)
+        {
+            await Connection.OpenAsync();
+            const string sql = """
+                                DELETE  FROM phonebook.table_persons 
+                                WHERE id = @id;
+                                """;
+            await Connection.QuerySingleOrDefaultAsync<Person>(sql, new { id });
+            Connection.Close();
+        }
+
+
     }
 }
