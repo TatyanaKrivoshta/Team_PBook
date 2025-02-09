@@ -48,5 +48,8 @@ namespace PBook_BL
         public async Task<PhoneType> GetPhoneTypeById_Async(int id)
         { return await tablePhoneType.GetById_Async(id); }
 
+        public async Task BL_AddPerson(string first_name, string last_name, string patronymic)
+        { await tablePerson.Add_Person(first_name, last_name, patronymic); }
+
     }
 }
