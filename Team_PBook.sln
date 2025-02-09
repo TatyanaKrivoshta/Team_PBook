@@ -11,7 +11,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBook_Model", "PBook_Model\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBook_BL", "PBook_BL\PBook_BL.csproj", "{D38FE177-6F7F-4440-93AF-7F9BA3D5810C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication_PBook", "WebApplication_PBook\WebApplication_PBook.csproj", "{65781D75-49E6-404E-AF9E-ECABBCA0ABB5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{1DCF37DD-51C2-4202-8236-0F2FD053AE43}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneBook.Model", "PhoneBook.Model\PhoneBook.Model.csproj", "{92250A62-9F22-4916-B96F-ED73A161B0C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneBook.DAL.Postgres", "PhoneBook.DAL.Postgres\PhoneBook.DAL.Postgres.csproj", "{3AB7850F-D996-4A2A-9EA9-2967359EB05E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneBook.BL", "PhoneBook.BL\PhoneBook.BL.csproj", "{CFB72F30-691C-4DE1-9E1E-ECC8FCCFFF91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneBook.WebApi", "PhoneBook.WebApi\PhoneBook.WebApi.csproj", "{DF94317C-C83B-4A2C-9EF2-5EBAE8B8434F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,15 +43,33 @@ Global
 		{D38FE177-6F7F-4440-93AF-7F9BA3D5810C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D38FE177-6F7F-4440-93AF-7F9BA3D5810C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D38FE177-6F7F-4440-93AF-7F9BA3D5810C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{65781D75-49E6-404E-AF9E-ECABBCA0ABB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{65781D75-49E6-404E-AF9E-ECABBCA0ABB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{65781D75-49E6-404E-AF9E-ECABBCA0ABB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{65781D75-49E6-404E-AF9E-ECABBCA0ABB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92250A62-9F22-4916-B96F-ED73A161B0C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92250A62-9F22-4916-B96F-ED73A161B0C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92250A62-9F22-4916-B96F-ED73A161B0C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92250A62-9F22-4916-B96F-ED73A161B0C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AB7850F-D996-4A2A-9EA9-2967359EB05E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AB7850F-D996-4A2A-9EA9-2967359EB05E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AB7850F-D996-4A2A-9EA9-2967359EB05E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AB7850F-D996-4A2A-9EA9-2967359EB05E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFB72F30-691C-4DE1-9E1E-ECC8FCCFFF91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFB72F30-691C-4DE1-9E1E-ECC8FCCFFF91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFB72F30-691C-4DE1-9E1E-ECC8FCCFFF91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFB72F30-691C-4DE1-9E1E-ECC8FCCFFF91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF94317C-C83B-4A2C-9EF2-5EBAE8B8434F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF94317C-C83B-4A2C-9EF2-5EBAE8B8434F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF94317C-C83B-4A2C-9EF2-5EBAE8B8434F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF94317C-C83B-4A2C-9EF2-5EBAE8B8434F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8275FE3F-26A0-48DC-A169-C8B9FEA95877}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{92250A62-9F22-4916-B96F-ED73A161B0C7} = {1DCF37DD-51C2-4202-8236-0F2FD053AE43}
+		{3AB7850F-D996-4A2A-9EA9-2967359EB05E} = {1DCF37DD-51C2-4202-8236-0F2FD053AE43}
+		{CFB72F30-691C-4DE1-9E1E-ECC8FCCFFF91} = {1DCF37DD-51C2-4202-8236-0F2FD053AE43}
+		{DF94317C-C83B-4A2C-9EF2-5EBAE8B8434F} = {1DCF37DD-51C2-4202-8236-0F2FD053AE43}
 	EndGlobalSection
 EndGlobal
