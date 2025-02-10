@@ -1,0 +1,21 @@
+@WebApp_HostAddress = http://localhost:5182
+
+GET {{WebApp_HostAddress}}/books/
+Accept: application/json
+
+###
+
+GET {{WebApp_HostAddress}}/books/{id}
+Accept: application/json
+
+###
+
+POST {{WebApp_HostAddress}}/book/{first_name},{last_name},{patronymic},{type_id},{number}
+Accept: application/json
+
+###
+
+DELETE {{WebApp_HostAddress}}/book/{id}
+Accept: application/json
+
+###
