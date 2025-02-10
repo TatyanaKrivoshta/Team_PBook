@@ -1,6 +1,0 @@
-@WebApplication_PBook_HostAddress = http://localhost:5134
-
-GET {{WebApplication_PBook_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
