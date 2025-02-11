@@ -29,6 +29,7 @@ namespace PBook_Client_DAL
                 (first_name, last_name, patronymic, type_id, number));
 
         public async Task Dal_DeleteBook(int id) =>  await Client.DeleteAsync(new Uri($"{id}"));
+        //comment
         
     }
 
