@@ -16,6 +16,7 @@ app.MapPost("/book/{first_name},{last_name},{patronymic},{type_id},{number}",
     await service.AddBook_Async(first_name, last_name, patronymic, type_id, number));
 
 app.MapDelete("/book/{id}", async(int id)=> await service.DeleteBook_Async(id));
+//comment
 
 
 app.Run();
