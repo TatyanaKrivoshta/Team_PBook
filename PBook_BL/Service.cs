@@ -48,7 +48,8 @@ namespace PBook_BL
 
         public async Task DeleteBook_Async(int id)
         { await tableBook.Delete_Book(id); }
-        //person
+        
+        //-----
         public async Task<IEnumerable<Person>> GetAllPerson_Async()
         { return await tablePerson.GetAll_Async(); }
         
