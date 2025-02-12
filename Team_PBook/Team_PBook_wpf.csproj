@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PBook_BL\PBook_BL.csproj" />
+    <ProjectReference Include="..\PBook_Client_DAL\PBook_Client_DAL.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PBook_DAL\PBook_DAL.csproj" />
+    <ProjectReference Include="..\PBook_Model\PBook_Model.csproj" />
   </ItemGroup>
 
   <ItemGroup>
