@@ -1,14 +1,17 @@
 ﻿using System.Reactive;
 using System.Windows;
+using PBook_Model;
 using ReactiveUI;
+using Team_PBook_wpf.Viewmodels.Bases;
 
 namespace Team_PBook.Viewmodels;
+//TODO ПРОБЛЕМА С ПОТОКАМИ + ДОБАВИТЬ ОТПРАВКУ НА СЕРВЕР
 
-public class EditContactViewModel : ReactiveObject
+public class EditContactViewModel : BaseConnectedObject
 {
-    private Contact _contact;
+    private Book _contact;
 
-    public Contact Contact
+    public Book Contact
     {
         get => _contact;
         set => this.RaiseAndSetIfChanged(ref _contact, value);
@@ -17,15 +20,13 @@ public class EditContactViewModel : ReactiveObject
     public ReactiveCommand<Unit, Unit> SaveCommand { get; }
     public ReactiveCommand<Unit, Unit> CancelCommand { get; }
 
-    public EditContactViewModel(Contact contact)
+    public EditContactViewModel(Book contact)
     {
-        Contact = new Contact
+        Contact = new Book
         {
-            LastName = contact.LastName,
-            FirstName = contact.FirstName,
-            MiddleName = contact.MiddleName,
-            WorkPhone = contact.WorkPhone,
-            HomePhone = contact.HomePhone
+            Person = contact.Person,
+            Type = contact.Type,
+            Number = contact.Number
         };
 
         SaveCommand = ReactiveCommand.Create(SaveChanges);
@@ -41,11 +42,9 @@ public class EditContactViewModel : ReactiveObject
         // Сохраняем изменения в оригинальный контакт
         if (Contact != null)
         {
-            Contact.LastName = _contact.LastName;
-            Contact.FirstName = _contact.FirstName;
-            Contact.MiddleName = _contact.MiddleName;
-            Contact.WorkPhone = _contact.WorkPhone;
-            Contact.HomePhone = _contact.HomePhone;
+            Contact.Person = _contact.Person;
+            Contact.Type = _contact.Type;
+            Contact.Number = _contact.Number;
         }
 
         CloseWindow(true);

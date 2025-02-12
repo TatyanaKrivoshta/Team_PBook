@@ -1,14 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace PBook_Model;
 
-namespace PBook_Model
+public enum PhoneTypeEnum
 {
-    public class PhoneType
+    work = 1,
+    home = 2,
+    mobile = 3
+}
+
+public class PhoneType
+{
+    public int Id { get; set; }
+    public PhoneTypeEnum Type { get; set; }
+
+    public string GetTypeString()
     {
-        public int Id { get; set; } 
-        public string Type { get; set; }
+        return Type.ToString();
     }
 }

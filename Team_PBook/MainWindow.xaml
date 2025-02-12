@@ -1,10 +1,9 @@
-﻿<Window x:Class="Team_PBook.MainWindow"
+﻿<Window x:Class="Team_PBook_wpf.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Team_PBook"
-        xmlns:viewmodels="clr-namespace:Team_PBook.Viewmodels"
+        xmlns:viewmodels="clr-namespace:Team_PBook_wpf.Viewmodels"
         mc:Ignorable="d"
         Title="Телефонная книга" Height="450" Width="800">
     <Window.DataContext>
@@ -25,6 +24,7 @@
 
         <ListBox Grid.Column="1" ItemsSource="{Binding Contacts}" SelectedItem="{Binding SelectedContact}"
                  DisplayMemberPath="FullName" Margin="5" />
+                 
 
         <Grid Grid.Column="2" Margin="5">
             <Grid.RowDefinitions>
@@ -40,19 +40,17 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <TextBlock Text="Фамилия:" FontWeight="Bold" Grid.Row="0" Margin="5" />
-            <TextBlock Text="{Binding SelectedContact.LastName, Mode=TwoWay}" Grid.Row="1" Margin="5" />
+            <TextBlock Text="{Binding SelectedContact.Person.Last_name, Mode=TwoWay}" Grid.Row="1" Margin="5" />
 
             <TextBlock Text="Имя:" FontWeight="Bold" Grid.Row="2" Margin="5" />
-            <TextBlock Text="{Binding SelectedContact.FirstName, Mode=TwoWay}" Grid.Row="3" Margin="5" />
+            <TextBlock Text="{Binding SelectedContact.Person.First_name, Mode=TwoWay}" Grid.Row="3" Margin="5" />
 
             <TextBlock Text="Отчество:" FontWeight="Bold" Grid.Row="4" Margin="5" />
-            <TextBlock Text="{Binding SelectedContact.FirstName, Mode=TwoWay}" Grid.Row="5" Margin="5" />
+            <TextBlock Text="{Binding SelectedContact.Person.Patronymic, Mode=TwoWay}" Grid.Row="5" Margin="5" />
 
-            <TextBlock Text="Рабочий телефон:" FontWeight="Bold" Grid.Row="6" Margin="5" />
-            <TextBlock Text="{Binding SelectedContact.WorkPhone, Mode=TwoWay}" Grid.Row="7" Margin="5" />
-
-            <TextBlock Text="Домашний телефон:" FontWeight="Bold" Grid.Row="8" Margin="5" />
-            <TextBlock Text="{Binding SelectedContact.HomePhone, Mode=TwoWay}" Grid.Row="9" Margin="5" />
+            <TextBlock Text="Телефон:" FontWeight="Bold" Grid.Row="6" Margin="5" />
+            <TextBlock Text="{Binding SelectedContact.Type.Type}" FontWeight="Bold" Grid.Row="7" Margin="5" />
+            <TextBlock Text="{Binding SelectedContact.Number, Mode=TwoWay}" Grid.Row="8" Margin="5" />
         </Grid>
     </Grid>
 </Window>

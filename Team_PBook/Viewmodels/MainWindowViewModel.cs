@@ -1,22 +1,24 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reactive;
+using PBook_Model;
 using ReactiveUI;
-using Team_PBook_wpf;
+using Team_PBook_wpf.Viewmodels.Bases;
+using Team_PBook.Viewmodels;
 
-namespace Team_PBook.Viewmodels;
+namespace Team_PBook_wpf.Viewmodels;
 
-public class MainWindowViewModel : ReactiveObject
+public class MainWindowViewModel : BaseConnectedObject
 {
-    private ObservableCollection<Contact> _contacts;
-    private Contact _selectedContact;
+    private Book _selectedContact;
+    private ObservableCollection<Book> _contacts;
 
-    public ObservableCollection<Contact> Contacts
+    public ObservableCollection<Book> Contacts
     {
         get => _contacts;
         set => this.RaiseAndSetIfChanged(ref _contacts, value);
     }
 
-    public Contact SelectedContact
+    public Book SelectedContact
     {
         get => _selectedContact;
         set => this.RaiseAndSetIfChanged(ref _selectedContact, value);
@@ -28,30 +30,27 @@ public class MainWindowViewModel : ReactiveObject
 
     public MainWindowViewModel()
     {
-        Contacts = new ObservableCollection<Contact>();
-        SelectedContact = null;
-
-        CreateCommand = ReactiveCommand.Create(AddNewContact);
+        Contacts = ContactsShare;
+        CreateCommand = ReactiveCommand.CreateFromTask(async () => await OnCreate());
         DeleteCommand = ReactiveCommand.Create(DeleteSelectedContact);
         EditCommand = ReactiveCommand.Create(OnEdit);
     }
 
-    private void AddNewContact()
+    private async Task OnCreate()
     {
-        var newContact = new Contact
-        {
-            LastName = "Новая",
-            FirstName = "Запись",
-            MiddleName = "",
-            WorkPhone = "",
-            HomePhone = ""
-        };
-        Contacts.Add(newContact);
-        SelectedContact = newContact;
+        var createWindow = new CreateContactWindow();
+        var viewmodel = new CreateContactViewModel();
+
+        createWindow.DataContext = viewmodel;
+        viewmodel.OwnerWindow = createWindow;
+        bool? result = createWindow.ShowDialog();
+        await Task.FromResult(result);
     }
+
 
     private void DeleteSelectedContact()
     {
+        // TODO УДАЛЕНИЕ В СЕРВЕР
         if (SelectedContact != null)
         {
             Contacts.Remove(SelectedContact);
@@ -74,5 +73,6 @@ public class MainWindowViewModel : ReactiveObject
         if (result == true)
         {
             SelectedContact = Contacts.FirstOrDefault(c => c == SelectedContact);
-        }    }
+        }
+    }
 }

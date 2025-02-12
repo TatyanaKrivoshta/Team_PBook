@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <RootNamespace>Team_PBook_wpf</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
