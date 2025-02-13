@@ -32,8 +32,6 @@ namespace PBook_Client_DAL
 
         public async Task Dal_DeleteBook(int id) =>  await Client.DeleteAsync(new Uri($"{id}"));
 
-        // Добавил заглушки
-
         public async Task<IEnumerable<Person>> Dal_GetAllPerson_Async() =>
             await Client.GetFromJsonAsync<IEnumerable<Person>>
             (new Uri($"http://localhost:5182/persons/"));
@@ -59,6 +57,18 @@ namespace PBook_Client_DAL
         public async Task<int> Dal_GetPersonIdByFullName(string first_name, string last_name, string patronymic) =>
             await Client.GetFromJsonAsync<int>
             (new Uri($"http://localhost:5182/person/{first_name}, {last_name}, {patronymic}"));
+
+        // Добавил апдейты
+
+        public async Task Dal_UpdateBook_Async(int id, string first_name, string last_name, string patronymic, int type_id, string number) =>
+            await Client.PutAsJsonAsync
+            (new Uri($"http://localhost:5182/book/{id},{first_name},{last_name},{patronymic},{type_id},{number}"), 
+                (id, first_name, last_name, patronymic, type_id, number));
+
+        public async Task Dal_UpdateBook_Async(int id, string first_name, string last_name, string patronymic) =>
+            await Client.PutAsJsonAsync
+            (new Uri($"http://localhost:5182/person/{id},{first_name},{last_name},{patronymic}"),
+                (id, first_name, last_name, patronymic));
     }
 
 }
