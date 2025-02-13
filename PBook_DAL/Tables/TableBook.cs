@@ -63,7 +63,7 @@ namespace PBook_DAL.Tables
             const string sql = """
                                 CALL procedure_create_book(@first_name, @last_name, @patronymic, @type_id, @number);                           
                                 """;
-            ;
+            
             using var command = new NpgsqlCommand(sql, Connection);
             command.Parameters.AddWithValue("@first_nameP", first_name);
             command.Parameters.AddWithValue("@last_nameP", last_name);
@@ -87,6 +87,29 @@ namespace PBook_DAL.Tables
             await Connection.QuerySingleOrDefaultAsync<Book>(sql, new {id, person_id, type_id, number });
             Connection.Close();
         }
+
+        public async Task Update_Book2(int id, string first_name, string last_name, string patronymic, int type_id, string number)
+        {
+            await Connection.OpenAsync();
+            const string sql = """
+                                CALL procedure_update_book("id,@first_name, @last_name, @patronymic, @type_id, @number);                           
+                                """;
+            
+            using var command = new NpgsqlCommand(sql, Connection);
+            command.Parameters.AddWithValue("@book_idP", id);
+            command.Parameters.AddWithValue("@first_nameP", first_name);
+            command.Parameters.AddWithValue("@last_nameP", last_name);
+            command.Parameters.AddWithValue("@patronymicP", patronymic);
+            command.Parameters.AddWithValue("@type_idP", type_id);
+            command.Parameters.AddWithValue("@number", number);
+
+            await command.ExecuteNonQueryAsync();
+
+            Connection.Close();
+        }
+
+
+
 
         public async Task Delete_Book(int id)
         {
