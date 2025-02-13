@@ -45,6 +45,8 @@ namespace PBook_BL
 
         public async Task UpdateBook_Async(int id, int person_id, int type_id, string number)
         { await tableBook.Update_Book(id, person_id, type_id, number); }
+        public async Task UpdateBook_Async(int id, string first_name, string last_name, string patronymic, int type_id, string number)
+        { await tableBook.Update_Book2(id, first_name, last_name, patronymic, type_id, number); }
 
         public async Task DeleteBook_Async(int id)
         { await tableBook.Delete_Book(id); }
