@@ -40,7 +40,7 @@ namespace PBook_BL
         public async Task AddBook_Async(int person_id, int type_id, string number)
         { await tableBook.Add_Book(person_id, type_id, number); }
 
-        public async Task AddBook_Async(string first_name, string last_name, string patronymic, int type_id, string number)
+        public async Task AddBook_Async(string? first_name, string? last_name, string? patronymic, int type_id, string? number)
         { await tableBook.Add_Book2(first_name, last_name, patronymic, type_id, number); }
 
         public async Task UpdateBook_Async(int id, int person_id, int type_id, string number)

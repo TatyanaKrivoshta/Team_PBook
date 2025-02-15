@@ -57,7 +57,7 @@ namespace PBook_DAL.Tables
             await Connection.QuerySingleOrDefaultAsync<Book>(sql, new { person_id, type_id, number });
             Connection.Close();
         }
-        public async Task Add_Book2(string first_name, string last_name, string patronymic, int type_id, string number)
+        public async Task Add_Book2(string? first_name, string? last_name, string? patronymic, int type_id, string? number)
         {
             await Connection.OpenAsync();
             const string sql = """

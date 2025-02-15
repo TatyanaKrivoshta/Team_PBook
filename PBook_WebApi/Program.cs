@@ -14,7 +14,7 @@ app.MapGet("/book/{id}", async(int id) => await service.GetBookById_Async(id));
 
 app.MapPost("/book/",
     async (Book contact) =>
-    await service.AddBook_Async(contact.Person.First_name, contact.Person.Last_name, contact.Person.Patronymic, contact.Type.Id, contact.Number));
+    await service.AddBook_Async(contact.Person.FirstName, contact.Person.LastName, contact.Person.Patronymic, contact.Type.Id, contact.Number));
 
 app.MapDelete("/book/{id}", async(int id)=> await service.DeleteBook_Async(id));
 
