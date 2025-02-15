@@ -1,8 +1,9 @@
-
 using PBook_Model;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Net.Http.Json;
+using NLog;
+using NLog.Targets;
 
 namespace PBook_Client_DAL
 {
@@ -11,8 +12,9 @@ namespace PBook_Client_DAL
         private static readonly HttpClient Client = new();
 
         public ObservableCollection<Book> books;
-        public ObservableCollection<Person> persons; // добавил коллекцию персон
+        public ObservableCollection<Person> persons; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         public ObservableCollection<PhoneType> phoneTypes;
+
         public ClientDAL()
         {
             books = new ObservableCollection<Book>();
@@ -58,7 +60,7 @@ namespace PBook_Client_DAL
             await Client.GetFromJsonAsync<int>
             (new Uri($"http://localhost:5182/person/{first_name}, {last_name}, {patronymic}"));
 
-        // Добавил апдейты
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
         public async Task Dal_UpdateBook_Async(int id, string first_name, string last_name, string patronymic, int type_id, string number) =>
             await Client.PutAsJsonAsync
