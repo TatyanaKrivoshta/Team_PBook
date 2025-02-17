@@ -6,57 +6,69 @@
         xmlns:viewmodels="clr-namespace:PBook_UI.Viewmodels"
         xmlns:pBookUi="clr-namespace:PBook_UI"
         mc:Ignorable="d"
-        Title="Телефонная книга" Height="450" Width="800">
+        Title="Телефонная книга" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen">
     <Window.DataContext>
         <viewmodels:MainWindowViewModel />
     </Window.DataContext>
-    <Grid>
+    
+    <Window.Resources>
+        <Style TargetType="Label" x:Key="FieldLabelStyle">
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Margin" Value="5" />
+        </Style>
+        <Style TargetType="TextBlock" x:Key="FieldTextStyle">
+            <Setter Property="Margin" Value="5" />
+        </Style>
+    </Window.Resources>
+    
+   <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="120" />
             <ColumnDefinition Width="200" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
+        <!-- Панель команд -->
         <StackPanel Grid.Column="0" VerticalAlignment="Top" Margin="5">
             <Button Content="Создать" Command="{Binding CreateCommand}" Width="100" Margin="5" />
             <Button Content="Редактировать" Command="{Binding EditCommand}" Width="100" Margin="5" />
             <Button Content="Удалить" Command="{Binding DeleteCommand}" Width="100" Margin="5" />
         </StackPanel>
-
+        
+        <!-- Список контактов -->
         <ListBox Grid.Column="1" 
                  ItemsSource="{Binding Contacts}"
-                 SelectedItem="{Binding SelectedContactModel}"
-                 Margin="5"
-                 DisplayMemberPath="Person.FullName"/>
-
-
-        <Grid Grid.Column="2" Margin="5">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <TextBlock Text="Фамилия:" FontWeight="Bold" Grid.Row="0" Margin="5" />
-            <TextBlock Text="{Binding SelectedContactModel.Person.LastName, Mode=TwoWay}" Grid.Row="1" Margin="5" />
-
-            <TextBlock Text="Имя:" FontWeight="Bold" Grid.Row="2" Margin="5" />
-            <TextBlock Text="{Binding SelectedContactModel.Person.FirstName, Mode=TwoWay}" Grid.Row="3" Margin="5" />
-
-            <TextBlock Text="Отчество:" FontWeight="Bold" Grid.Row="4" Margin="5" />
-            <TextBlock Text="{Binding SelectedContactModel.Person.Patronymic, Mode=TwoWay}" Grid.Row="5" Margin="5" />
-
-            <TextBlock Text="Телефон:" FontWeight="Bold" Grid.Row="6" Margin="5" />
-            <TextBlock Text="{Binding SelectedContactModel.Number, Mode=TwoWay}" Grid.Row="7" Margin="5" />
+                 SelectedItem="{Binding SelectedContact}"
+                 Margin="5">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Person.FullName}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
+        <!-- Детальная информация о контакте -->
+        <StackPanel Grid.Column="2" Margin="5">
+            <!-- Фамилия -->
+            <Label Content="Фамилия:" Style="{StaticResource FieldLabelStyle}" />
+            <TextBlock Text="{Binding SelectedContact.Person.LastName, Mode=OneWay}" Style="{StaticResource FieldTextStyle}" />
             
-            <TextBlock Text="Тип телефона:" FontWeight="Bold" Grid.Row="8" Margin="5" />
-            <TextBlock Text="{Binding SelectedContactModel.Type.Type, Mode=TwoWay}" Grid.Row="9" Margin="5"/>
-        </Grid>
+            <!-- Имя -->
+            <Label Content="Имя:" Style="{StaticResource FieldLabelStyle}" />
+            <TextBlock Text="{Binding SelectedContact.Person.FirstName, Mode=OneWay}" Style="{StaticResource FieldTextStyle}" />
+            
+            <!-- Отчество -->
+            <Label Content="Отчество:" Style="{StaticResource FieldLabelStyle}" />
+            <TextBlock Text="{Binding SelectedContact.Person.Patronymic, Mode=OneWay}" Style="{StaticResource FieldTextStyle}" />
+            
+            <!-- Телефон -->
+            <Label Content="Телефон:" Style="{StaticResource FieldLabelStyle}" />
+            <TextBlock Text="{Binding SelectedContact.Number, Mode=OneWay}" Style="{StaticResource FieldTextStyle}" />
+            
+            <!-- Тип телефона -->
+            <Label Content="Тип телефона:" Style="{StaticResource FieldLabelStyle}" />
+            <TextBlock Text="{Binding SelectedContact.Type.Type, Mode=OneWay}" Style="{StaticResource FieldTextStyle}" />
+        </StackPanel>
     </Grid>
 </Window>

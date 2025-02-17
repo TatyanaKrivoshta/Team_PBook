@@ -1,10 +1,29 @@
-﻿namespace PBook_Model
+﻿using ReactiveUI;
+
+namespace PBook_Model;
+public class Book : ReactiveObject
 {
-    public class Book
+    private Person _person;
+    private PhoneType _type;
+    private string _number;
+
+    public int Id { get; set; }
+
+    public Person Person
     {
-        public int Id { get; set; }
-        public required Person Person  { get; set; }
-        public required PhoneType? Type { get; set; } 
-        public required string? Number { get; set; }
+        get => _person;
+        set => this.RaiseAndSetIfChanged(ref _person, value);
+    }
+
+    public PhoneType Type
+    {
+        get => _type;
+        set => this.RaiseAndSetIfChanged(ref _type, value);
+    }
+
+    public string Number
+    {
+        get => _number;
+        set => this.RaiseAndSetIfChanged(ref _number, value);
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Reactive;
 using System.Windows;
 using PBook_Model;
@@ -10,66 +9,43 @@ namespace PBook_UI.Viewmodels;
 
 public class EditContactViewModel : BaseConnectedObject
 {
-    //TODO Пофикить баги с сохранением типов телефона и отображением в UI
     private Book _contact;
-
     public Book Contact
     {
         get => _contact;
         set => this.RaiseAndSetIfChanged(ref _contact, value);
     }
-    
-    private string _selectedType;
 
-    public ObservableCollection<string> PhoneTypes { get; set; }
-
-    public string SelectedType
+    private PhoneType _selectedType;
+    public ObservableCollection<PhoneType> PhoneTypes { get; set; }
+    public PhoneType SelectedType
     {
         get => _selectedType;
-        set
-        {
-            _selectedType = value;
-            OnPropertyChanged(nameof(SelectedType));
-        }
+        set => this.RaiseAndSetIfChanged(ref _selectedType, value);
     }
-    
-    public new event PropertyChangedEventHandler PropertyChanged;
 
-    protected virtual void OnPropertyChanged(string propertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-    
     public ReactiveCommand<Unit, Unit> SaveCommand { get; }
     public ReactiveCommand<Unit, Unit> CancelCommand { get; }
 
-    public EditContactViewModel(Book contact)
+    public Window OwnerWindow { get; set; }
+
+    public EditContactViewModel(Book contact, ObservableCollection<PhoneType> phoneTypes)
     {
         _contact = contact;
-        SelectedType = _contact.Type!.Type;
-        
-        PhoneTypes =
-        [
-            PhoneTypeEnum.work.ToString(),
-            PhoneTypeEnum.home.ToString(),
-            PhoneTypeEnum.mobile.ToString()
-        ];
+        SelectedType = _contact.Type;
 
+        PhoneTypes = phoneTypes;
         SaveCommand = ReactiveCommand.Create(SaveChanges);
         CancelCommand = ReactiveCommand.Create(Cancel);
     }
-    
 
     private void SaveChanges()
     {
         if (Contact != null)
         {
-            Contact.Person = _contact.Person;
-            Contact.Type.Type = _selectedType;
-            Contact.Number = _contact.Number;
+            Contact.Type = SelectedType;
+            CloseWindow(true);
         }
-
-        CloseWindow(true);
     }
 
     private void Cancel()
@@ -85,6 +61,4 @@ public class EditContactViewModel : BaseConnectedObject
             OwnerWindow.Close();
         }
     }
-
-    public Window OwnerWindow { get; set; }
 }

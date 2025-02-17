@@ -3,13 +3,26 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:viewmodels="clr-namespace:PBook_UI.Viewmodels"
         mc:Ignorable="d"
-        Title="Редактирование контакта" Height="400" Width="400">
-    <Grid Margin="10">
+        Title="Редактирование контакта" Height="420" Width="400"
+        WindowStartupLocation="CenterScreen">
+        
+
+    <Window.Resources>
+        <Style TargetType="Label" x:Key="FieldLabelStyle">
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Margin" Value="5" />
+        </Style>
+        <Style TargetType="TextBox" x:Key="FieldTextStyle">
+            <Setter Property="Margin" Value="5" />
+        </Style>
+        <Style TargetType="ComboBox" x:Key="FieldComboTextStyle">
+            <Setter Property="Margin" Value="5" />
+        </Style>
+    </Window.Resources>
+
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -23,28 +36,38 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Фамилия:" FontWeight="Bold" Grid.Row="0" Margin="5" />
-        <TextBox Text="{Binding Contact.Person.LastName, Mode=TwoWay}" Grid.Row="1" Margin="5" />
+        <!-- Фамилия -->
+        <Label Content="Фамилия:" Style="{StaticResource FieldLabelStyle}" Grid.Row="0" />
+        <TextBox Text="{Binding Contact.Person.LastName, UpdateSourceTrigger=PropertyChanged}"
+                 Style="{StaticResource FieldTextStyle}" Grid.Row="1" />
 
-        <TextBlock Text="Имя:" FontWeight="Bold" Grid.Row="2" Margin="5" />
-        <TextBox Text="{Binding Contact.Person.FirstName, Mode=TwoWay}" Grid.Row="3" Margin="5" />
+        <!-- Имя -->
+        <Label Content="Имя:" Style="{StaticResource FieldLabelStyle}" Grid.Row="2" />
+        <TextBox Text="{Binding Contact.Person.FirstName, UpdateSourceTrigger=PropertyChanged}"
+                 Style="{StaticResource FieldTextStyle}" Grid.Row="3" />
 
-        <TextBlock Text="Отчество:" FontWeight="Bold" Grid.Row="4" Margin="5" />
-        <TextBox Text="{Binding Contact.Person.Patronymic, Mode=TwoWay}" Grid.Row="5" Margin="5" />
+        <!-- Отчество -->
+        <Label Content="Отчество:" Style="{StaticResource FieldLabelStyle}" Grid.Row="4" />
+        <TextBox Text="{Binding Contact.Person.Patronymic, UpdateSourceTrigger=PropertyChanged}"
+                 Style="{StaticResource FieldTextStyle}" Grid.Row="5" />
 
-        <TextBlock Text="Телефон:" FontWeight="Bold" Grid.Row="6" Margin="5" />
-        <TextBox Text="{Binding Contact.Number, Mode=TwoWay}" Grid.Row="7" Margin="5" />
-        
-        <ComboBox Grid.Row="8" Margin="5" 
-                  ItemsSource="{Binding PhoneTypes}"
-                  SelectedItem="{Binding Contact.Type.Type}"
-                  VerticalAlignment="Center"
-                  />
+        <!-- Телефон -->
+        <Label Content="Телефон:" Style="{StaticResource FieldLabelStyle}" Grid.Row="6" />
+        <TextBox Text="{Binding Contact.Number, UpdateSourceTrigger=PropertyChanged}"
+                 Style="{StaticResource FieldTextStyle}" Grid.Row="7" />
 
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="10" Margin="5"
-                    VerticalAlignment="Bottom">
-            <Button Content="Сохранить" Command="{Binding SaveCommand}" Width="80" Margin="5" />
-            <Button Content="Отмена" Command="{Binding CancelCommand}" Width="80" Margin="5" />
+        <!-- Тип телефона -->
+        <Label Content="Тип телефона:" Style="{StaticResource FieldLabelStyle}" Grid.Row="8" />
+        <ComboBox ItemsSource="{Binding PhoneTypes}"
+                  SelectedItem="{Binding SelectedType, UpdateSourceTrigger=PropertyChanged}"
+                  DisplayMemberPath="Type"
+                  Style="{StaticResource FieldComboTextStyle}"
+                  Grid.Row="9" />
+
+        <!-- Кнопки -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="10" Margin="5">
+            <Button Content="Сохранить" Command="{Binding SaveCommand}" Width="100" Margin="5" />
+            <Button Content="Отмена" Command="{Binding CancelCommand}" Width="100" Margin="5" />
         </StackPanel>
     </Grid>
 </Window>

@@ -1,5 +1,7 @@
-﻿using PBook_Client_DAL;
+﻿using System.Collections.ObjectModel;
+using PBook_Client_DAL;
 using PBook_Model;
+using ReactiveUI;
 
 namespace PBook_UI.Viewmodels.Base;
 
@@ -13,6 +15,4 @@ public enum PhoneTypeEnum
 public class BaseConnectedObject : ViewModelBase
 {
     protected readonly ClientDAL Service = new ClientDAL();
-    public Book SelectedContact;
-
 }
