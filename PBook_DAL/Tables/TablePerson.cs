@@ -59,7 +59,6 @@ namespace PBook_DAL.Tables
             Connection.Close();
         }
        
-
         public async Task Update_Person(int id, string first_name, string last_name, string patronymic)
         {
             await Connection.OpenAsync();

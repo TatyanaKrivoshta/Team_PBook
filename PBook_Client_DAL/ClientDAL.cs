@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Logging;
+using PBook_BL;
 using PBook_Model;
 using System.Collections.ObjectModel;
 using System.Net.Http;
@@ -9,7 +11,10 @@ namespace PBook_Client_DAL
 {
     public class ClientDAL
     {
+        private static NLog.Logger logger2 = NLog.LogManager.GetCurrentClassLogger();
+
         private static readonly HttpClient Client = new();
+        public Service service;
 
         public ObservableCollection<Book> books;
         public ObservableCollection<Person> persons; // ������� ��������� ������
@@ -17,7 +22,97 @@ namespace PBook_Client_DAL
 
         public ClientDAL()
         {
-            books = new ObservableCollection<Book>();
+           
+            service = new Service();
+            try
+            {
+                Test_function();
+                logger2.Info("� ������ Client_DAL ��������� ����� ������� ������������ ��������� �� ���� ��");
+            }
+            catch (Exception ex) 
+            {
+                logger2.Info("� ������ Client_DAL �� ��������� ����� ������� ������������ ��������� �� ���� ��");
+            }
+            try
+            {
+                Test_function2();
+                logger2.Info("� ������ Client_DAL ��������� ����� ������� ������������ ��������� ����� �������");
+            }
+            catch(Exception ex)
+            {
+                logger2.Info("� ������ Client_DAL �� ��������� ����� ������� ������������ ��������� ����� �������");
+            }
+        }
+
+        public async Task Test_function() //BL
+        {
+            try
+            {
+                persons = new ObservableCollection<Person>(await service.GetAllPerson_Async());
+                int c = persons.Count();
+                logger2.Info($"��������� Person � ���� BL �������, ���������� ��������� = {c} ");
+            }
+            catch(Exception ex)
+            {
+                logger2.Fatal(ex, "��������� Person � ���� BL �� �������");
+            }
+            try
+            {
+                books = new ObservableCollection<Book>(await service.GetAllBook_Async());
+                int d = books.Count();
+                logger2.Info($"��������� Book � ���� BL �������, ���������� ��������� = {d} ");
+            }
+            catch (Exception ex)
+            {
+                logger2.Fatal(ex, "��������� Book � ���� BL �� �������");
+            }
+            try
+            {
+                phoneTypes = new ObservableCollection<PhoneType>(await service.GetAllPhoneType_Async());
+                int e = phoneTypes.Count();
+                logger2.Info($"��������� phoneType � ���� BL �������, ���������� ��������� = {e} ");
+            }
+            catch (Exception ex)
+            {
+                logger2.Fatal(ex, "��������� phoneType � ���� BL �� �������");
+            }
+
+            
+        }
+        public async Task Test_function2()
+        {
+            try
+            {
+                persons = new ObservableCollection<Person>(await Dal_GetAllPerson_Async());
+                int c = persons.Count();
+                logger2.Info($"��������� Person � ���� Client_DAL �������, ���������� ��������� = {c} ");
+            }
+            catch (Exception ex)
+            {
+                logger2.Fatal(ex, "��������� Person � ���� Client_DAL �� �������");
+            }
+            try 
+            {
+                books = new ObservableCollection<Book>(await Dal_GetAllBooks_Async());
+                int d = books.Count();
+                logger2.Info($"��������� Book � ���� Client_DAL �������, ���������� ��������� = {d} ");
+            }
+            catch (Exception ex)
+            {
+                logger2.Fatal(ex, "��������� Book � ���� Client_DAL �� �������");
+            }
+            try
+            {
+                phoneTypes = new ObservableCollection<PhoneType>(await Dal_GetAllPhoneType_Async());
+                int e = phoneTypes.Count();
+                logger2.Info($"��������� phoneType � ���� Client_DAL �������, ���������� ��������� = {e} ");
+            }
+            catch (Exception ex)
+            {
+                logger2.Fatal(ex, "��������� phoneType � ���� Client_DAL �� �������");
+            }
+
+           
         }
 
         public async Task<IEnumerable<Book>> Dal_GetAllBooks_Async() =>
@@ -36,7 +131,10 @@ namespace PBook_Client_DAL
 
         public async Task<IEnumerable<Person>> Dal_GetAllPerson_Async() =>
             await Client.GetFromJsonAsync<IEnumerable<Person>>
-            (new Uri($"http://localhost:5182/persons/"));
+            (new Uri($"http://localhost:5182/persons/"));        
+        
+        public async Task<IEnumerable<Person>> Dal2_GetAllPerson_Async() => await Client.GetFromJsonAsync<IEnumerable<Person>>
+            (new Uri($"http://localhost:5080/persons/"));
 
         public async Task<Person> Dal_GetPersonById_Async(int id) =>
             await Client.GetFromJsonAsync<Person>
@@ -59,8 +157,6 @@ namespace PBook_Client_DAL
         public async Task<int> Dal_GetPersonIdByFullName(string first_name, string last_name, string patronymic) =>
             await Client.GetFromJsonAsync<int>
             (new Uri($"http://localhost:5182/person/{first_name}, {last_name}, {patronymic}"));
-
-        // ������� �������
 
         public async Task Dal_UpdateBook_Async(int id, string first_name, string last_name, string patronymic, int type_id, string number) =>
             await Client.PutAsJsonAsync

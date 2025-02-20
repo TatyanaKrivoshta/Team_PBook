@@ -7,17 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="dbconfig.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="dbconfig.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\PBook_BL\PBook_BL.csproj" />
+    <ProjectReference Include="..\PBook_Model\PBook_Model.csproj" />
   </ItemGroup>
 
 </Project>

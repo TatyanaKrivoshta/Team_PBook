@@ -20,7 +20,7 @@ namespace PBook_DAL.Tables
 
                 const string sql = """
                                    SELECT id, type
-                                   FROM phonebook.table_phonetype   
+                                   FROM phonebook.table_phonetype                             
                                    """;
 
                 var result = await Connection.QueryAsync<PhoneType>(sql);

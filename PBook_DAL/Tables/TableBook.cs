@@ -10,8 +10,9 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PBook_DAL.Tables
 {
-    public class TableBook :BaseTable
+    public class TableBook : BaseTable
     {
+        
         public async Task<IEnumerable<Book>?> GetAll_Async()
         {
             try
@@ -37,11 +38,23 @@ namespace PBook_DAL.Tables
         {
             await Connection.OpenAsync();
 
+            /*   const string sql = """
+                              SELECT id, first_name, last_name, patronymic, type,number
+                              FROM view_book
+                              WHERE id = @id
+                              """;*/
             const string sql = """
-                           SELECT id, first_name, last_name, patronymic, type,number
-                           FROM view_book
-                           WHERE id = @id
-                           """;
+                               SELECT phonebook.table_book.id,
+                               first_name, last_name, patronymic,
+                               type,
+                               number
+                                  FROM phonebook.table_book
+                                  JOIN phonebook.table_persons
+                                      ON phonebook.table_book.person_id=phonebook.table_persons.id
+                                  JOIN phonebook.table_phonetype
+                                      ON phonebook.table_book.type_id=phonebook.table_phonetype.id
+                             WHERE phonebook.table_book.id=@id
+                             """;
             var book = await Connection.QuerySingleOrDefaultAsync<Book>(sql, new { id });
 
             Connection.Close();
@@ -61,30 +74,29 @@ namespace PBook_DAL.Tables
         {
             await Connection.OpenAsync();
             const string sql = """
-                                CALL procedure_create_book(@first_name, @last_name, @patronymic, @type_id, @number);                           
+                                CALL procedure_create_book3(@first_name, @last_name, @patronymic, @type_id, @number);                           
                                 """;
-            
+
             using var command = new NpgsqlCommand(sql, Connection);
             command.Parameters.AddWithValue("@first_nameP", first_name);
             command.Parameters.AddWithValue("@last_nameP", last_name);
             command.Parameters.AddWithValue("@patronymicP", patronymic);
             command.Parameters.AddWithValue("@type_idP", type_id);
-            command.Parameters.AddWithValue("@number", number);
+            command.Parameters.AddWithValue("@numberP", number);
 
-            await command.ExecuteNonQueryAsync();
+            await Connection.QuerySingleOrDefaultAsync<Book>(sql, new { first_name, last_name, patronymic, type_id, number });
 
             Connection.Close();
         }
 
-
-        public async Task Update_Book(int id,int person_id, int type_id, string number)
+        public async Task Update_Book(int id, int person_id, int type_id, string number)
         {
             await Connection.OpenAsync();
             const string sql = """
                                 UPDATE phonebook.table_book SET person_id=@person_id, type_id=@type_id, number=@number
                                 WHERE id = @id;
                                 """;
-            await Connection.QuerySingleOrDefaultAsync<Book>(sql, new {id, person_id, type_id, number });
+            await Connection.QuerySingleOrDefaultAsync<Book>(sql, new { id, person_id, type_id, number });
             Connection.Close();
         }
 
@@ -94,7 +106,7 @@ namespace PBook_DAL.Tables
             const string sql = """
                                 CALL procedure_update_book("id,@first_name, @last_name, @patronymic, @type_id, @number);                           
                                 """;
-            
+
             using var command = new NpgsqlCommand(sql, Connection);
             command.Parameters.AddWithValue("@book_idP", id);
             command.Parameters.AddWithValue("@first_nameP", first_name);
@@ -107,9 +119,6 @@ namespace PBook_DAL.Tables
 
             Connection.Close();
         }
-
-
-
 
         public async Task Delete_Book(int id)
         {
@@ -124,20 +133,6 @@ namespace PBook_DAL.Tables
 
 
 
-        
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-        }
+    } 
 }
