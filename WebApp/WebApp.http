@@ -46,8 +46,6 @@ Accept: application/json
 
 ###
 
-
-
 DELETE {{WebApp_HostAddress}}/person/{id}
 Accept: application/json
 

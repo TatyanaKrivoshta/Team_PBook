@@ -1,10 +1,11 @@
-
 using Microsoft.Extensions.Logging;
 using PBook_BL;
 using PBook_Model;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Net.Http.Json;
+using NLog;
+using NLog.Targets;
 
 namespace PBook_Client_DAL
 {
@@ -16,8 +17,9 @@ namespace PBook_Client_DAL
         public Service service;
 
         public ObservableCollection<Book> books;
-        public ObservableCollection<Person> persons; // добавил коллекцию персон
+        public ObservableCollection<Person> persons; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         public ObservableCollection<PhoneType> phoneTypes;
+
         public ClientDAL()
         {
            
@@ -25,20 +27,20 @@ namespace PBook_Client_DAL
             try
             {
                 Test_function();
-                logger2.Info("в классе Client_DAL произошел вызов функции формирования коллекций из слоя БЛ");
+                logger2.Info("пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ Client_DAL пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ");
             }
             catch (Exception ex) 
             {
-                logger2.Info("в классе Client_DAL НЕ произошел вызов функции формирования коллекций из слоя БЛ");
+                logger2.Info("пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ Client_DAL пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ");
             }
             try
             {
                 Test_function2();
-                logger2.Info("в классе Client_DAL произошел вызов функции формирования коллекций после сервера");
+                logger2.Info("пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ Client_DAL пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
             }
             catch(Exception ex)
             {
-                logger2.Info("в классе Client_DAL НЕ произошел вызов функции формирования коллекций после сервера");
+                logger2.Info("пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ Client_DAL пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
             }
         }
 
@@ -48,31 +50,31 @@ namespace PBook_Client_DAL
             {
                 persons = new ObservableCollection<Person>(await service.GetAllPerson_Async());
                 int c = persons.Count();
-                logger2.Info($"коллекция Person в слое BL создана, количество элементов = {c} ");
+                logger2.Info($"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Person пїЅ пїЅпїЅпїЅпїЅ BL пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ = {c} ");
             }
             catch(Exception ex)
             {
-                logger2.Fatal(ex, "коллекция Person в слое BL не создана");
+                logger2.Fatal(ex, "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Person пїЅ пїЅпїЅпїЅпїЅ BL пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
             }
             try
             {
                 books = new ObservableCollection<Book>(await service.GetAllBook_Async());
                 int d = books.Count();
-                logger2.Info($"коллекция Book в слое BL создана, количество элементов = {d} ");
+                logger2.Info($"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Book пїЅ пїЅпїЅпїЅпїЅ BL пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ = {d} ");
             }
             catch (Exception ex)
             {
-                logger2.Fatal(ex, "коллекция Book в слое BL не создана");
+                logger2.Fatal(ex, "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Book пїЅ пїЅпїЅпїЅпїЅ BL пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
             }
             try
             {
                 phoneTypes = new ObservableCollection<PhoneType>(await service.GetAllPhoneType_Async());
                 int e = phoneTypes.Count();
-                logger2.Info($"коллекция phoneType в слое BL создана, количество элементов = {e} ");
+                logger2.Info($"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ phoneType пїЅ пїЅпїЅпїЅпїЅ BL пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ = {e} ");
             }
             catch (Exception ex)
             {
-                logger2.Fatal(ex, "коллекция phoneType в слое BL не создана");
+                logger2.Fatal(ex, "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ phoneType пїЅ пїЅпїЅпїЅпїЅ BL пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
             }
 
             
@@ -83,31 +85,31 @@ namespace PBook_Client_DAL
             {
                 persons = new ObservableCollection<Person>(await Dal_GetAllPerson_Async());
                 int c = persons.Count();
-                logger2.Info($"коллекция Person в слое Client_DAL создана, количество элементов = {c} ");
+                logger2.Info($"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Person пїЅ пїЅпїЅпїЅпїЅ Client_DAL пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ = {c} ");
             }
             catch (Exception ex)
             {
-                logger2.Fatal(ex, "коллекция Person в слое Client_DAL не создана");
+                logger2.Fatal(ex, "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Person пїЅ пїЅпїЅпїЅпїЅ Client_DAL пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
             }
             try 
             {
                 books = new ObservableCollection<Book>(await Dal_GetAllBooks_Async());
                 int d = books.Count();
-                logger2.Info($"коллекция Book в слое Client_DAL создана, количество элементов = {d} ");
+                logger2.Info($"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Book пїЅ пїЅпїЅпїЅпїЅ Client_DAL пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ = {d} ");
             }
             catch (Exception ex)
             {
-                logger2.Fatal(ex, "коллекция Book в слое Client_DAL не создана");
+                logger2.Fatal(ex, "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Book пїЅ пїЅпїЅпїЅпїЅ Client_DAL пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
             }
             try
             {
                 phoneTypes = new ObservableCollection<PhoneType>(await Dal_GetAllPhoneType_Async());
                 int e = phoneTypes.Count();
-                logger2.Info($"коллекция phoneType в слое Client_DAL создана, количество элементов = {e} ");
+                logger2.Info($"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ phoneType пїЅ пїЅпїЅпїЅпїЅ Client_DAL пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ = {e} ");
             }
             catch (Exception ex)
             {
-                logger2.Fatal(ex, "коллекция phoneType в слое Client_DAL не создана");
+                logger2.Fatal(ex, "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ phoneType пїЅ пїЅпїЅпїЅпїЅ Client_DAL пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
             }
 
            
@@ -155,8 +157,6 @@ namespace PBook_Client_DAL
         public async Task<int> Dal_GetPersonIdByFullName(string first_name, string last_name, string patronymic) =>
             await Client.GetFromJsonAsync<int>
             (new Uri($"http://localhost:5182/person/{first_name}, {last_name}, {patronymic}"));
-
-        // апдейты
 
         public async Task Dal_UpdateBook_Async(int id, string first_name, string last_name, string patronymic, int type_id, string number) =>
             await Client.PutAsJsonAsync
