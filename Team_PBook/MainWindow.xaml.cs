@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using PBook_Client_DAL;
 
 namespace Team_PBook
 {
@@ -16,9 +17,12 @@ namespace Team_PBook
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        public ClientDAL client;
         public MainWindow()
         {
             InitializeComponent();
+            client=new ClientDAL();
         }
     }
 }

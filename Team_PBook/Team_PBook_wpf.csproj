@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PBook_Client_DAL\PBook_Client_DAL.csproj" />
+    <ProjectReference Include="..\PBook_Model\PBook_Model.csproj" />
   </ItemGroup>
 
 </Project>

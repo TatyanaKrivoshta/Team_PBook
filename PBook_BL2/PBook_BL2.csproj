@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0-windows</TargetFramework>
@@ -13,9 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PBook_BL\PBook_BL.csproj" />
+    <ProjectReference Include="..\PBook_DAL\PBook_DAL.csproj" />
     <ProjectReference Include="..\PBook_Model\PBook_Model.csproj" />
-    <ProjectReference Include="..\WebApp\WebApp.csproj" />
   </ItemGroup>
 
 </Project>

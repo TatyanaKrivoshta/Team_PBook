@@ -6,17 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PBook_BL
+namespace PBook_BL2
 {
-    public class Service
+    internal class Service2
     {
         private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
 
         TablePerson tablePerson;
         TablePhoneType tablePhoneType;
         TableBook tableBook;
-        
-        public Service()
+
+        public Service2()
         {
             try
             {
@@ -25,26 +25,10 @@ namespace PBook_BL
                 tableBook = new TableBook();
                 _logger.Info("успешная инициализация таблиц классов из слоя DAL в слое BL");
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 _logger.Fatal(ex, "Таблицы класоов в слое BL не созданы");
             }
-
-            Test();
-
-               
-        }
-        public async void Test()
-        { 
-        Book b= await GetBookById_Async(2);
-            int i=b.Id;
-            string fn=b.First_name;
-            string ln=b.Last_name;
-            string p=b.Patronymic;
-            string t=b.Type;
-            string n= b.Number;
-
-
         }
 
         //book
@@ -67,11 +51,12 @@ namespace PBook_BL
 
         public async Task DeleteBook_Async(int id)
         { await tableBook.Delete_Book(id); }
-        
+
+
         //-----
         public async Task<IEnumerable<Person>> GetAllPerson_Async()
         { return await tablePerson.GetAll_Async(); }
-        
+
         public async Task<Person> GetPersonById_Async(int id)
         { return await tablePerson.GetById_Async(id); }
 
@@ -92,5 +77,9 @@ namespace PBook_BL
 
         public async Task<int> GetPersonIdByFullName(string first_name, string last_name, string patronymic)
         { return await tablePerson.GetIdByFullName(first_name, last_name, patronymic); }
+
+
+
+
     }
 }

@@ -15,7 +15,7 @@ app.MapGet("/book/{id}", async(int id) => await service.GetBookById_Async(id));
 app.MapPost("/book/{first_name},{last_name},{patronymic},{type_id},{number}",
     async (string first_name, string last_name, string patronymic, int type_id, string number) =>
     await service.AddBook_Async(first_name, last_name, patronymic, type_id, number));
-
+ 
 app.MapDelete("/book/{id}", async(int id)=> await service.DeleteBook_Async(id));
 
 app.MapGet("/persons", async () => await service.GetAllPerson_Async());
@@ -35,9 +35,6 @@ app.MapDelete("/person/{id}", async (int id) => await service.DeletePerson_Async
 app.MapGet("/person/{first_name},{last_name},{patronymic}", 
     async(string first_name, string last_name, string patronymic) => 
     await service.GetPersonIdByFullName(first_name, last_name, patronymic));
-
-
-// Добавил апдейты
 
 /*app.MapPut("/book/{id},{person_id},{type_id},{number}",
     async (int id, int person_id, int type_id, string number) => 

@@ -19,9 +19,8 @@ namespace PBook_DAL.Tables
                 await Connection.OpenAsync();
 
                 const string sql = """
-                                   SELECT id,
-                                          first_name, last_name, patronymic
-                                   FROM phonebook.table_persons                            
+                                   SELECT id, type
+                                   FROM phonebook.table_phonetype                             
                                    """;
 
                 var result = await Connection.QueryAsync<PhoneType>(sql);

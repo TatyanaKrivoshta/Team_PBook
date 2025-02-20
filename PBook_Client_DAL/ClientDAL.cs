@@ -1,4 +1,6 @@
 
+using Microsoft.Extensions.Logging;
+using PBook_BL;
 using PBook_Model;
 using System.Collections.ObjectModel;
 using System.Net.Http;
@@ -8,14 +10,107 @@ namespace PBook_Client_DAL
 {
     public class ClientDAL
     {
+        private static NLog.Logger logger2 = NLog.LogManager.GetCurrentClassLogger();
+
         private static readonly HttpClient Client = new();
+        public Service service;
 
         public ObservableCollection<Book> books;
         public ObservableCollection<Person> persons; // добавил коллекцию персон
         public ObservableCollection<PhoneType> phoneTypes;
         public ClientDAL()
         {
-            books = new ObservableCollection<Book>();
+           
+            service = new Service();
+            try
+            {
+                Test_function();
+                logger2.Info("в классе Client_DAL произошел вызов функции формирования коллекций из слоя БЛ");
+            }
+            catch (Exception ex) 
+            {
+                logger2.Info("в классе Client_DAL НЕ произошел вызов функции формирования коллекций из слоя БЛ");
+            }
+            try
+            {
+                Test_function2();
+                logger2.Info("в классе Client_DAL произошел вызов функции формирования коллекций после сервера");
+            }
+            catch(Exception ex)
+            {
+                logger2.Info("в классе Client_DAL НЕ произошел вызов функции формирования коллекций после сервера");
+            }
+        }
+
+        public async Task Test_function() //BL
+        {
+            try
+            {
+                persons = new ObservableCollection<Person>(await service.GetAllPerson_Async());
+                int c = persons.Count();
+                logger2.Info($"коллекция Person в слое BL создана, количество элементов = {c} ");
+            }
+            catch(Exception ex)
+            {
+                logger2.Fatal(ex, "коллекция Person в слое BL не создана");
+            }
+            try
+            {
+                books = new ObservableCollection<Book>(await service.GetAllBook_Async());
+                int d = books.Count();
+                logger2.Info($"коллекция Book в слое BL создана, количество элементов = {d} ");
+            }
+            catch (Exception ex)
+            {
+                logger2.Fatal(ex, "коллекция Book в слое BL не создана");
+            }
+            try
+            {
+                phoneTypes = new ObservableCollection<PhoneType>(await service.GetAllPhoneType_Async());
+                int e = phoneTypes.Count();
+                logger2.Info($"коллекция phoneType в слое BL создана, количество элементов = {e} ");
+            }
+            catch (Exception ex)
+            {
+                logger2.Fatal(ex, "коллекция phoneType в слое BL не создана");
+            }
+
+            
+        }
+        public async Task Test_function2()
+        {
+            try
+            {
+                persons = new ObservableCollection<Person>(await Dal_GetAllPerson_Async());
+                int c = persons.Count();
+                logger2.Info($"коллекция Person в слое Client_DAL создана, количество элементов = {c} ");
+            }
+            catch (Exception ex)
+            {
+                logger2.Fatal(ex, "коллекция Person в слое Client_DAL не создана");
+            }
+            try 
+            {
+                books = new ObservableCollection<Book>(await Dal_GetAllBooks_Async());
+                int d = books.Count();
+                logger2.Info($"коллекция Book в слое Client_DAL создана, количество элементов = {d} ");
+            }
+            catch (Exception ex)
+            {
+                logger2.Fatal(ex, "коллекция Book в слое Client_DAL не создана");
+            }
+            try
+            {
+                phoneTypes = new ObservableCollection<PhoneType>(await Dal_GetAllPhoneType_Async());
+                int e = phoneTypes.Count();
+                logger2.Info($"коллекция phoneType в слое Client_DAL создана, количество элементов = {e} ");
+            }
+            catch (Exception ex)
+            {
+                logger2.Fatal(ex, "коллекция phoneType в слое Client_DAL не создана");
+            }
+
+           
         }
 
         public async Task<IEnumerable<Book>> Dal_GetAllBooks_Async() =>
@@ -34,7 +129,10 @@ namespace PBook_Client_DAL
 
         public async Task<IEnumerable<Person>> Dal_GetAllPerson_Async() =>
             await Client.GetFromJsonAsync<IEnumerable<Person>>
-            (new Uri($"http://localhost:5182/persons/"));
+            (new Uri($"http://localhost:5182/persons/"));        
+        
+        public async Task<IEnumerable<Person>> Dal2_GetAllPerson_Async() => await Client.GetFromJsonAsync<IEnumerable<Person>>
+            (new Uri($"http://localhost:5080/persons/"));
 
         public async Task<Person> Dal_GetPersonById_Async(int id) =>
             await Client.GetFromJsonAsync<Person>
@@ -58,7 +156,7 @@ namespace PBook_Client_DAL
             await Client.GetFromJsonAsync<int>
             (new Uri($"http://localhost:5182/person/{first_name}, {last_name}, {patronymic}"));
 
-        // Добавил апдейты
+        // апдейты
 
         public async Task Dal_UpdateBook_Async(int id, string first_name, string last_name, string patronymic, int type_id, string number) =>
             await Client.PutAsJsonAsync
