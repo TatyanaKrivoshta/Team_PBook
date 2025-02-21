@@ -29,25 +29,8 @@ namespace PBook_BL
             {
                 _logger.Fatal(ex, "Таблицы класоов в слое BL не созданы");
             }
-
-            Test();
-
-               
-        }
-        public async void Test()
-        { 
-        Book b= await GetBookById_Async(2);
-            int i=b.Id;
-            string fn=b.First_name;
-            string ln=b.Last_name;
-            string p=b.Patronymic;
-            string t=b.Type;
-            string n= b.Number;
-
-
         }
 
-        //book
         public async Task<IEnumerable<Book>> GetAllBook_Async()
         { return await tableBook.GetAll_Async(); }
 

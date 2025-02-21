@@ -1,6 +1,8 @@
-﻿namespace Team_PBook.Viewmodels.Base;
+﻿using ReactiveUI;
 
-public class ViewModelBase
+namespace PBook.GUI.Viewmodels.Base;
+
+public class ViewModelBase : ReactiveObject
 {
     
 }

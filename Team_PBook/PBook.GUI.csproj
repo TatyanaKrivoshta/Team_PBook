@@ -6,12 +6,15 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-    <RootNamespace>Team_PBook_wpf</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\PBook_Client_DAL\PBook_Client_DAL.csproj" />
     <ProjectReference Include="..\PBook_Model\PBook_Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ReactiveUI.WPF" Version="20.1.63" />
   </ItemGroup>
 
 </Project>

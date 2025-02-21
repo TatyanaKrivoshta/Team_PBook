@@ -1,15 +1,14 @@
-﻿<Window x:Class="Team_PBook.MainWindow"
+﻿<Window x:Class="PBook.GUI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Team_PBook"
-        xmlns:vw="clr-namespace:Team_PBook_wpf.Model"
+        xmlns:viewmodels1="clr-namespace:PBook.GUI.Viewmodels"
         mc:Ignorable="d"
         Title="Телефонная книга" Height="450" Width="800"
         WindowStartupLocation="CenterScreen">
     <Window.DataContext>
-        <viewmodels:MainWindowViewModel />
+        <viewmodels1:MainWindowViewModel />
     </Window.DataContext>
 
     <Window.Resources>
@@ -41,25 +40,25 @@
                  Margin="5">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Person.FullName}" />
+                    <TextBlock Text="{Binding FullName}" />
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
         <StackPanel Grid.Column="2" Margin="5">
             <Label Content="Фамилия:" Style="{StaticResource FieldLabelStyle}" />
-            <TextBlock Text="{Binding SelectedContact.Person.LastName, Mode=OneWay}"
+            <TextBlock Text="{Binding SelectedContact.LastName, Mode=OneWay}"
                        Style="{StaticResource FieldTextStyle}" />
             <Label Content="Имя:" Style="{StaticResource FieldLabelStyle}" />
-            <TextBlock Text="{Binding SelectedContact.Person.FirstName, Mode=OneWay}"
+            <TextBlock Text="{Binding SelectedContact.FirstName, Mode=OneWay}"
                        Style="{StaticResource FieldTextStyle}" />
             <Label Content="Отчество:" Style="{StaticResource FieldLabelStyle}" />
-            <TextBlock Text="{Binding SelectedContact.Person.Patronymic, Mode=OneWay}"
+            <TextBlock Text="{Binding SelectedContact.Patronymic, Mode=OneWay}"
                        Style="{StaticResource FieldTextStyle}" />
             <Label Content="Телефон:" Style="{StaticResource FieldLabelStyle}" />
             <TextBlock Text="{Binding SelectedContact.Number, Mode=OneWay}" Style="{StaticResource FieldTextStyle}" />
             <Label Content="Тип телефона:" Style="{StaticResource FieldLabelStyle}" />
-            <TextBlock Text="{Binding SelectedContact.Type.Type, Mode=OneWay}" Style="{StaticResource FieldTextStyle}" />
+            <TextBlock Text="{Binding SelectedContact.Type, Mode=OneWay}" Style="{StaticResource FieldTextStyle}" />
         </StackPanel>
     </Grid>
 </Window>

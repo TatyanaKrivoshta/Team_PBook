@@ -1,12 +1,62 @@
-﻿<Window x:Class="Team_PBook_wpf.EditContactWindow"
+﻿<Window x:Class="PBook.GUI.EditContactWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:Team_PBook_wpf"
+        xmlns:local="clr-namespace:PBook.GUI"
         mc:Ignorable="d"
-        Title="EditContactWindow" Height="450" Width="800">
+        Title="Редактирование контакта" Height="420" Width="400"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <Style TargetType="Label" x:Key="FieldLabelStyle">
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Margin" Value="5" />
+        </Style>
+        <Style TargetType="TextBox" x:Key="FieldTextStyle">
+            <Setter Property="Margin" Value="5" />
+        </Style>
+        <Style TargetType="ComboBox" x:Key="FieldComboTextStyle">
+            <Setter Property="Margin" Value="5" />
+        </Style>
+    </Window.Resources>
+
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Label Content="Фамилия:" Style="{StaticResource FieldLabelStyle}" Grid.Row="0" />
+        <TextBox Text="{Binding Contact.LastName, UpdateSourceTrigger=PropertyChanged}"
+                 Style="{StaticResource FieldTextStyle}" Grid.Row="1" />
+        <Label Content="Имя:" Style="{StaticResource FieldLabelStyle}" Grid.Row="2" />
+        <TextBox Text="{Binding Contact.FirstName, UpdateSourceTrigger=PropertyChanged}"
+                 Style="{StaticResource FieldTextStyle}" Grid.Row="3" />
+        <Label Content="Отчество:" Style="{StaticResource FieldLabelStyle}" Grid.Row="4" />
+        <TextBox Text="{Binding Contact.Patronymic, UpdateSourceTrigger=PropertyChanged}"
+                 Style="{StaticResource FieldTextStyle}" Grid.Row="5" />
+        <Label Content="Телефон:" Style="{StaticResource FieldLabelStyle}" Grid.Row="6" />
+        <TextBox Text="{Binding Contact.Number, UpdateSourceTrigger=PropertyChanged}"
+                 Style="{StaticResource FieldTextStyle}" Grid.Row="7" />
+        <Label Content="Тип телефона:" Style="{StaticResource FieldLabelStyle}" Grid.Row="8" />
+        <ComboBox ItemsSource="{Binding PhoneTypes}"
+                  SelectedItem="{Binding SelectedType, UpdateSourceTrigger=PropertyChanged}"
+                  DisplayMemberPath="Type"
+                  Style="{StaticResource FieldComboTextStyle}"
+                  Grid.Row="9" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="10" Margin="5">
+            <Button Content="Сохранить" Command="{Binding SaveCommand}" Width="100" Margin="5" />
+            <Button Content="Отмена" Command="{Binding CancelCommand}" Width="100" Margin="5" />
+        </StackPanel>
     </Grid>
 </Window>
