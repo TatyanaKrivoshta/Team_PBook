@@ -1,9 +1,9 @@
-﻿<Window x:Class="PBook.GUI.EditContactWindow"
+﻿<Window x:Class="PBook_GUI.EditContactWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:PBook.GUI"
+        xmlns:local="clr-namespace:PBook_GUI"
         mc:Ignorable="d"
         Title="Редактирование контакта" Height="420" Width="400"
         WindowStartupLocation="CenterScreen">
@@ -51,7 +51,6 @@
         <Label Content="Тип телефона:" Style="{StaticResource FieldLabelStyle}" Grid.Row="8" />
         <ComboBox ItemsSource="{Binding PhoneTypes}"
                   SelectedItem="{Binding SelectedType, UpdateSourceTrigger=PropertyChanged}"
-                  DisplayMemberPath="Type"
                   Style="{StaticResource FieldComboTextStyle}"
                   Grid.Row="9" />
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="10" Margin="5">

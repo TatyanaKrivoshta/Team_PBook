@@ -1,6 +1,7 @@
-using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc;
 using PBook_BL;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using PBook_Client_DAL;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,10 +13,16 @@ app.MapGet("/books", async () => await service.GetAllBook_Async());
 
 app.MapGet("/book/{id}", async(int id) => await service.GetBookById_Async(id));
 
-app.MapPost("/book/{first_name},{last_name},{patronymic},{type_id},{number}",
-    async (string first_name, string last_name, string patronymic, int type_id, string number) =>
-    await service.AddBook_Async(first_name, last_name, patronymic, type_id, number));
- 
+app.MapPost("/book/",
+    async ([FromBody] BookRequest request) =>
+    {
+        var contact = request.Contact;
+        var typeId = request.TypeId;
+        
+        await service.AddBook_Async(contact.FirstName, contact.LastName, contact.Patronymic, typeId, contact.Number);
+    });
+   
+
 app.MapDelete("/book/{id}", async(int id)=> await service.DeleteBook_Async(id));
 
 app.MapGet("/persons", async () => await service.GetAllPerson_Async());
@@ -40,9 +47,20 @@ app.MapGet("/person/{first_name},{last_name},{patronymic}",
     async (int id, int person_id, int type_id, string number) => 
     await service.UpdateBook_Async(id, person_id, type_id, number));*/
 
-app.MapPut("/book/{id},{first_name},{last_name},{patronymic},{type_id},{number}",
-    async (int id, string first_name, string last_name, string patronymic, int type_id, string number) =>
-    await service.UpdateBook_Async(id,first_name, last_name,patronymic,type_id,number));
+app.MapPut("/book",
+    async ([FromBody]BookRequest request) =>
+    {
+        var contact = request.Contact;
+        var typeId = request.TypeId;
+
+        await service.UpdateBook_Async(
+            contact.Id,
+            contact.FirstName,
+            contact.LastName,
+            contact.Patronymic,
+            typeId,
+            contact.Number);
+    });
 
 app.MapPut("/person/{id},{first_name},{last_name},{patronymic}",
     async (int id, string first_name, string last_name, string patronymic) =>

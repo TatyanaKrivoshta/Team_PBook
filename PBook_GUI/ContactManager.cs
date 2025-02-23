@@ -2,11 +2,11 @@
 using PBook_Model;
 using ReactiveUI;
 
-namespace PBook.GUI;
+namespace PBook_GUI;
 
 public class ContactManager : ReactiveObject
 {
-    private ObservableCollection<Book> _contacts;
+    private static ObservableCollection<Book> _contacts;
     public static ContactManager Instance { get; } = new ContactManager();
 
     public ObservableCollection<Book> Contacts
@@ -17,16 +17,22 @@ public class ContactManager : ReactiveObject
 
     private ContactManager()
     {
-        Contacts = [];
+        _contacts = [];
     }
-
+    
     public void AddContact(Book contact)
     {
-        Contacts.Add(contact);
+        _contacts.Add(contact);
     }
 
     public void RemoveContact(Book contact)
     {
-        Contacts.Remove(contact);
+        _contacts.Remove(contact);
+    }
+
+    public void ClearContacts()
+    {
+        _contacts.Clear();
+        Contacts.Clear();
     }
 }

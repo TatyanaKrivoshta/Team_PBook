@@ -13,7 +13,7 @@ namespace PBook_Model
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Patronymic { get; set; }
-        public required PhoneType Type { get; set; } 
+        public required string Type { get; set; } 
         public required string Number { get; set; }
 
         public Book()

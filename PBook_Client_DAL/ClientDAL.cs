@@ -1,5 +1,4 @@
 using PBook_Model;
-using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Net.Http.Json;
 
@@ -9,23 +8,36 @@ namespace PBook_Client_DAL
     public class ClientDAL
     {
         private static readonly HttpClient Client = new();
-        public ObservableCollection<Book> books;
-        public ObservableCollection<Person> persons;
-        public ObservableCollection<PhoneType> phoneTypes;
 
-        public async Task<IEnumerable<Book>> Dal_GetAllBooks_Async() =>
-            await Client.GetFromJsonAsync<IEnumerable<Book>>
-                (new Uri($"http://localhost:5182/books/"));
+        public async Task<IEnumerable<Book>> Dal_GetAllBooks_Async()
+        {
+            HttpResponseMessage response = await Client.GetAsync(new Uri($"http://localhost:5182/books/"));
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadFromJsonAsync<IEnumerable<Book>>();
+        }
 
         public async Task<Book> Dal_GetBookById(int id) =>
             await Client.GetFromJsonAsync<Book>
                 (new Uri($"http://localhost:5182/books/{id}"));
 
-        public async Task Dal_AddBook(string first_name, string last_name, string patronymic, int type_id,
-            string number) =>
-            await Client.PostAsJsonAsync(
-                new Uri($"http://localhost:5182/book/{first_name},{last_name},{patronymic},{type_id},{number}"),
-                (first_name, last_name, patronymic, type_id, number));
+        public async Task Dal_AddBook(Book contact, int typeId)
+        {
+            var request = new BookRequest
+            {
+                Contact = contact,
+                TypeId = typeId
+            };
+
+            var response = await Client.PostAsJsonAsync(
+                new Uri($"http://localhost:5182/book/"), request);
+            
+            if (!response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                throw new HttpRequestException($"Error: {response.StatusCode}, {responseBody}");
+            }
+        }
+
 
         public async Task Dal_DeleteBook(int id) => await Client.DeleteAsync(new Uri($"{id}"));
 
@@ -59,15 +71,22 @@ namespace PBook_Client_DAL
             await Client.GetFromJsonAsync<int>
                 (new Uri($"http://localhost:5182/person/{first_name}, {last_name}, {patronymic}"));
 
-        public async Task Dal_UpdateBook_Async(int id, string first_name, string last_name, string patronymic,
-            int type_id, string number) =>
-            await Client.PutAsJsonAsync
-            (new Uri($"http://localhost:5182/book/{id},{first_name},{last_name},{patronymic},{type_id},{number}"),
-                (id, first_name, last_name, patronymic, type_id, number));
+        public async Task Dal_UpdateBook_Async(Book contact, int typeId)
+        {
+            var request = new BookRequest
+            {
+                Contact = contact,
+                TypeId = typeId
+            };
 
-        public async Task Dal_UpdateBook_Async(Book contact) =>
-            await Client.PutAsJsonAsync
-            (new Uri($"http://localhost:5182/person/{contact.Id},{contact.FirstName},{contact.LastName},{contact.Patronymic}"),
-                (contact.Id, contact.FirstName, contact.LastName, contact.Patronymic));
+            var response = await Client.PutAsJsonAsync(
+                new Uri("http://localhost:5182/book"), request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                throw new HttpRequestException($"Error: {response.StatusCode}, {responseBody}");
+            }
+        }
     }
 }

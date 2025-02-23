@@ -1,6 +1,6 @@
 ﻿using ReactiveUI;
 
-namespace PBook.GUI.Viewmodels.Base;
+namespace PBook_GUI.Viewmodels.Base;
 
 public class ViewModelBase : ReactiveObject
 {

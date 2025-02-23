@@ -20,14 +20,14 @@ namespace PBook_DAL.Tables
                 await Connection.OpenAsync();
 
                 const string sql = """
-                                   SELECT id, first_name, last_name, patronymic, type,number
+                                   SELECT id, first_name, last_name, patronymic, type, number
                                    FROM view_book;                       
                                    """;
 
                 var result = await Connection.QueryAsync<Book>(sql);
 
                 Connection.Close();
-                return result;
+                return result.OrderBy(b => b.Id).ToList();
             }
             catch (NpgsqlException e)
             {
@@ -102,22 +102,39 @@ namespace PBook_DAL.Tables
 
         public async Task Update_Book2(int id, string first_name, string last_name, string patronymic, int type_id, string number)
         {
-            await Connection.OpenAsync();
             const string sql = """
-                                CALL procedure_update_book("id,@first_name, @last_name, @patronymic, @type_id, @number);                           
-                                """;
+                                   CALL procedure_update_book(@book_idP, @first_nameP, @last_nameP, @patronymicP, @type_idP, @numberP);
+                               """;
 
             using var command = new NpgsqlCommand(sql, Connection);
+
             command.Parameters.AddWithValue("@book_idP", id);
-            command.Parameters.AddWithValue("@first_nameP", first_name);
-            command.Parameters.AddWithValue("@last_nameP", last_name);
-            command.Parameters.AddWithValue("@patronymicP", patronymic);
+            command.Parameters.AddWithValue("@first_nameP", first_name ?? (object)DBNull.Value);
+            command.Parameters.AddWithValue("@last_nameP", last_name ?? (object)DBNull.Value);
+            command.Parameters.AddWithValue("@patronymicP", patronymic ?? (object)DBNull.Value);
             command.Parameters.AddWithValue("@type_idP", type_id);
-            command.Parameters.AddWithValue("@number", number);
+            command.Parameters.AddWithValue("@numberP", number ?? (object)DBNull.Value);
 
-            await command.ExecuteNonQueryAsync();
+            try
+            {
+                if (Connection.State != System.Data.ConnectionState.Open)
+                {
+                    await Connection.OpenAsync();
+                }
 
-            Connection.Close();
+                await command.ExecuteNonQueryAsync();
+            }
+            catch (NpgsqlException ex)
+            {
+                throw new Exception("Ошибка при вызове процедуры procedure_update_book: " + ex.Message, ex);
+            }
+            finally
+            {
+                if (Connection.State == System.Data.ConnectionState.Open)
+                {
+                    await Connection.CloseAsync();
+                }
+            }
         }
 
         public async Task Delete_Book(int id)

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace PBook.GUI;
+namespace PBook_GUI;
 
 public partial class EditContactWindow : Window
 {

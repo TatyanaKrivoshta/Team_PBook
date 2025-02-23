@@ -1,15 +1,14 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reactive;
 using System.Windows;
+using PBook_GUI.Viewmodels.Base;
 using PBook_Model;
-using PBook.GUI.Viewmodels.Base;
 using ReactiveUI;
 
-namespace PBook.GUI.Viewmodels;
+namespace PBook_GUI.Viewmodels;
 
 public class MainWindowViewModel : BaseConnectedObject
 {
-    private ObservableCollection<PhoneType> _phoneTypes;
     private Book _selectedContact;
 
     public Book SelectedContact
@@ -20,37 +19,20 @@ public class MainWindowViewModel : BaseConnectedObject
 
     public ObservableCollection<Book> Contacts => ContactManager.Instance.Contacts;
 
-
-    public ObservableCollection<PhoneType> PhoneTypes
-    {
-        get => _phoneTypes;
-        set => this.RaiseAndSetIfChanged(ref _phoneTypes, value);
-    }
-
     public ReactiveCommand<Unit, Unit> CreateCommand { get; }
     public ReactiveCommand<Unit, Unit> DeleteCommand { get; }
     public ReactiveCommand<Unit, Unit> EditCommand { get; }
 
     public MainWindowViewModel()
     {
+        ContactManager.Instance.ClearContacts();
         InitializeAsync().ConfigureAwait(false);
-        InitializePhoneTypes();
         CreateCommand = ReactiveCommand.Create(AddNewContact);
         DeleteCommand = ReactiveCommand.Create(DeleteSelectedContact);
         EditCommand = ReactiveCommand.Create(OnEdit);
 
     }
-
-    private void InitializePhoneTypes()
-    {
-        _phoneTypes = new ObservableCollection<PhoneType>
-        {
-            new() { Id = (int)PhoneTypeEnum.work, Type = PhoneTypeEnum.work.ToString() },
-            new() { Id = (int)PhoneTypeEnum.home, Type = PhoneTypeEnum.home.ToString() },
-            new() { Id = (int)PhoneTypeEnum.mobile, Type = PhoneTypeEnum.mobile.ToString() }
-        };
-    }
-
+    
     private async Task InitializeAsync()
     {
         var dbContacts = await Service.Dal_GetAllBooks_Async();
@@ -68,12 +50,11 @@ public class MainWindowViewModel : BaseConnectedObject
             FirstName = "John",
             LastName = "Doe",
             Patronymic = "Smith",
-            Type = _phoneTypes[2],
+            Type = PhoneTypeEnum.Mobile.ToString(),
             Number = "1234567890"
         };
         ContactManager.Instance.AddContact(newContact);
-        Service.Dal_AddBook(newContact.FirstName, newContact.LastName, newContact.Patronymic, newContact.Type.Id,
-            newContact.Number);
+        Service.Dal_AddBook(newContact, 1);
     }
 
     private void DeleteSelectedContact()
@@ -89,13 +70,12 @@ public class MainWindowViewModel : BaseConnectedObject
         if (SelectedContact == null) return;
 
         var editWindow = new EditContactWindow();
-        var viewModel = new EditContactViewModel(SelectedContact, _phoneTypes);
+        var viewModel = new EditContactViewModel(SelectedContact);
         editWindow.DataContext = viewModel;
         viewModel.OwnerWindow = editWindow;
 
         if (editWindow.ShowDialog() == true)
         {
-            Service.Dal_UpdateBook_Async(SelectedContact);
         }
 
         new MainWindow().Show();

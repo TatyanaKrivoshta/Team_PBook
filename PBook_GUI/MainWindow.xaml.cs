@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace PBook.GUI
+namespace PBook_GUI
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

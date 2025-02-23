@@ -1,14 +1,15 @@
-﻿<Window x:Class="PBook.GUI.MainWindow"
+﻿<Window x:Class="PBook_GUI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:viewmodels1="clr-namespace:PBook.GUI.Viewmodels"
+        xmlns:viewmodels1="clr-namespace:PBook_GUI.Viewmodels"
+        xmlns:viewmodels="clr-namespace:PBook_GUI.Viewmodels"
         mc:Ignorable="d"
         Title="Телефонная книга" Height="450" Width="800"
         WindowStartupLocation="CenterScreen">
     <Window.DataContext>
-        <viewmodels1:MainWindowViewModel />
+        <viewmodels:MainWindowViewModel />
     </Window.DataContext>
 
     <Window.Resources>
