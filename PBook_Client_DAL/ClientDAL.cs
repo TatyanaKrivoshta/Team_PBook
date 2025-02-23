@@ -39,7 +39,16 @@ namespace PBook_Client_DAL
         }
 
 
-        public async Task Dal_DeleteBook(int id) => await Client.DeleteAsync(new Uri($"{id}"));
+        public async Task Dal_DeleteBook(int id)
+        {
+            var response = await Client.DeleteAsync(new Uri($"http://localhost:5182/book/{id}"));
+
+            if (!response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                throw new HttpRequestException($"Error: {response.StatusCode}, {responseBody}");
+            }
+        } 
 
         public async Task<IEnumerable<Person>> Dal_GetAllPerson_Async() =>
             await Client.GetFromJsonAsync<IEnumerable<Person>>
